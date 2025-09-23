@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import google.generativeai as genai
 
+from django.contrib import auth
+
 # Configure Gemini API
 genai.configure(api_key="AIzaSyAb6zaHhIyM-uHAtgGoGQD2xgUy_GbpTWk")
 
@@ -23,3 +25,13 @@ def files(request):
         response = ask_gemini(message)
         return JsonResponse({"message": message, "response": response})
     return render(request, 'chatbot.html')
+
+
+def login(request):
+    return render(request,'login.html')
+
+def register(request):
+    return render(request,'register.html')
+
+def logout(request):
+    auth.logout(request)
