@@ -5,6 +5,7 @@ import google.generativeai as genai
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import chat
+from django.utils import timezone
 
 
 
@@ -24,11 +25,18 @@ def ask_gemini(message):
         return f"An error occurred: {str(e)}"
 
 def files(request):
+    chats = chat.objects.filter(user = request.user)
     if request.method == 'POST':
         message = request.POST.get('message')
         response = ask_gemini(message)
+
+        # Save chat to database
+        Chat = chat(user=request.user, message=message, response=response, created_at=timezone.now())
+        Chat.save()
+
         return JsonResponse({"message": message, "response": response})
-    return render(request, 'chatbot.html')
+
+    return render(request, 'chatbot.html',{'chats':chats})
 
 
 def login(request):
