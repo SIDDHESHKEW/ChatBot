@@ -22,3 +22,4 @@ if __name__ == '__main__':
     main()
 
     # path of the virtual environment - & 'D:\Dekstop - D drive\Django\myworld\Scripts\Activate.ps1'
+    # to run - py manage.py runserver
